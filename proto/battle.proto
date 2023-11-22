@@ -1,0 +1,888 @@
+syntax = "proto3";
+
+package battle;
+
+option go_package = "github.com/hijjiri/pb-files-generator/battle";
+
+import "google/api/annotations.proto";
+
+service BattleService {
+    rpc GetBattle(BattleId) returns (Battle) {
+      option (google.api.http) = {
+	get: "/BattleService/GetBattle"
+      };
+    }
+}
+
+message BattleId {
+    uint32 battle_id = 1;
+}
+
+message Battle {
+//    uint32 battle_id = 1;
+    repeated Unit units = 2;
+    int32 action_counts = 3;
+    Result result = 4;
+    enum Result {
+        PROGRESS = 0;
+        WIN = 1;
+        LOSE = 2;
+        TIME_UP = 3;
+        DRAW = 4;
+    }
+    State state = 5;
+    enum State {
+        ACTIVE = 0;
+        FIRST_PASSIVE = 1;
+        SECOND_PASSIVE = 2;
+        OPENING = 3;
+    }
+    int64 random_seed = 6;
+    int64 random_counts = 7;
+    repeated BattleAction actions = 8;
+    int32 last_active_position = 9;
+    repeated uint32 uids = 10;
+    map<int32, bool> rules = 11;
+    int32 attacker_taken_damage = 12;
+    int32 defender_taken_damage = 13;
+    uint32 battle_type = 14;
+    int32 action_limit = 15;
+    repeated uint32 jin_ids = 16; // deprecated
+    int32 attacker_change_counts = 17;
+    int32 defender_change_counts = 18;
+    int32 last_change_action_counts = 19;
+    uint32 bgm_id = 20;
+    uint32 background_id = 21;
+    repeated Jin jins = 22;
+    int32 active_action_counts = 23;
+    int32 attacker_last_change_active_action_counts = 24;
+    int32 defender_last_change_active_action_counts = 25;
+    repeated FieldState field_state = 26;
+    AuraState aura_state = 27;
+    enum AuraState {
+        FIRST_ACTIVE_AURA = 0;
+        SECOND_ACTIVE_AURA = 1;
+        ACTIVE_AURA_ADDITION = 2;
+        FIRST_PASSIVE_AURA = 3;
+        SECOND_PASSIVE_AURA = 4;
+        PASSIVE_AURA_ADDITION = 5;
+    }
+}
+
+enum BGMId {
+    NONE_BGM = 0;
+}
+
+enum BackgroundId {
+    NONE = 0;
+}
+
+enum BattleType {
+    UNDEFINED_BATTLE    = 0;
+    NODE_BATTLE         = 1;
+    CUP_BATTLE          = 2;
+    RAID_BATTLE         = 3;
+    LAND_NODE_BATTLE    = 4;
+    KNIGHT_BATTLE       = 5;
+    ARENA_BATTLE        = 6;
+    SIMULATION          = 7;
+    NINE_BATTLE         = 8;
+    ARENA_NINE_BATTLE   = 9;
+    COLOSSEUM_BATTLE = 10;
+    DEEP_NODE_BATTLE = 11;
+    ARENA_JIN_NINE_BATTLE = 12;
+    DEEP_NODE_BOSS_BATTLE = 13;
+    LANDWAR_BATTLE = 14;
+    CUP_JIN_NINE_BATTLE = 15;
+    ARENA_JIN_THREE_BATTLE = 16;
+    JIN_SIMULATION = 17;
+    GYM_BATTLE = 18;
+    SOUL_NODE = 19;
+    SOUL_BATTLE = 20;
+    THREE_ON_THREE_ON_THREE = 21;
+}
+
+enum Rule {
+    RULE_NONE = 0;
+    HP_RECOVERY_CHANGE_PARAM_RECOVERY = 1;
+    INT_DAMAGE_CHANGE_INT_DEBUFF = 2;
+    LIMIT_BUFF_100 = 3;
+    LIMIT_DEBUFF_50 = 4;
+    LIMIT_HEAL_100 = 5;
+}
+
+message BattleAction {
+    int32 count = 1;
+    repeated CurrentUnit units = 2;
+    uint32 skill = 3;
+    int32 action_position = 4;
+    repeated int32 effect_positions = 5;
+    int32 poison = 6;
+    int32 bleed = 7;
+    repeated CurrentJin jins = 8;
+    uint32 jin_skill = 9;
+    uint32 attacker_field_state = 10;
+    uint32 defender_field_state = 11;
+    int32 active_action_count = 12;
+    uint32 jin_skill_effect = 13;
+    uint32 aura_type = 14;
+}
+
+message Unit {
+    BaseUnit base = 1;
+    CurrentUnit current = 2;
+}
+
+message BaseUnit {
+    int32 index = 1;
+    int32 position = 2;
+    int32 hp = 3;
+    int32 phy = 4;
+    int32 int = 5;
+    int32 agi = 6;
+    repeated uint32 actives = 7;
+    uint32 passive = 8;
+    uint32 character = 9;
+    uint32 extension1 = 10;
+    uint32 extension2 = 11;
+    string ipfs = 12;
+    bool is_enemy = 13;
+    map<int32, int32> result_rate1000 = 14;
+    enum Result {
+        NONE = 0;
+        POISON = 1;
+        SLEEP = 2;
+        CONFUSION = 3;
+        RECOVERY = 4;
+        MY_DAMAGE = 5;
+        YOUR_PHY_DAMAGE = 7;
+        YOUR_INT_DAMAGE = 8;
+        FEAR = 9;
+        BARRIER = 10;
+        BLEED = 11;
+        STUN = 12;
+        DAMAGE_CUT = 13;
+        AGI_CHARGE = 14;
+        PROSTRATION = 15;
+        DECOY = 16;
+        CURSE = 17;
+        CHARM = 18;
+        AURA_ADD_PHY_DAMAGE = 19;
+        AURA_ADD_INT_DAMAGE = 20;
+        AURA_RECEIVE_PHY_DAMAGE = 21;
+        AURA_RECEIVE_INT_DAMAGE = 22;
+    }
+    repeated uint32 attribute_types = 15;
+    uint32 hero_type = 16;
+    repeated AuraEffectRate auras = 17;
+    message AuraEffectRate {
+        uint32 aura_type = 1;
+        int32 effect_value = 2;
+        int32 secondary_value = 3;
+    }
+    int32 critical_phy_rate = 18;
+    int32 critical_int_rate = 19;
+    int32 increase_damage_cut = 20;
+    repeated EnchantInfo enchant_infos = 21;
+}
+
+message CurrentUnit {
+    int32 index = 1;
+    int32 position = 2;
+    int32 hp = 3;
+    int32 phy = 4;
+    int32 int = 5;
+    int32 agi = 6;
+    int32 charge = 7;
+    int32 active_counts = 8;
+    bool passive_enabled = 9;
+    int32 added_damage = 10;
+    int32 taken_damage = 11;
+    State state = 12;
+    enum State {
+        NORMAL      = 0;
+        POISON      = 1;
+        SLEEP       = 2;
+        CONFUSION   = 3;
+        FEAR        = 4;
+        BARRIER       = 5;
+        BLEED = 6;
+        STUN = 7;
+        PROSTRATION = 8;
+        CURSE = 9;
+        CHARM = 10;
+    }
+    bool position_changed = 13;
+    bool barrier_in_action = 14;
+    int32 bleed_count = 15;
+    bool resurrection_enabled = 16;
+    bool decoy_enabled = 17;
+    bool decoy_in_action = 18;
+    int32 bonus_charge = 19;
+    int32 curse_count = 20;
+    bool skill_death_enabled = 21;
+    bool duplicate_decoy_enabled = 22;
+    int32 critical_phy_rate = 23;
+    int32 critical_int_rate = 24;
+    bool critical_judg = 25;
+    int32 shield = 26;
+    map<uint32, bool> aura_enabled = 27;
+    bool aura_death_enabled = 28;
+    map<int32, int32> state_effect_rate = 29;
+    repeated uint32 active_auras = 30;
+    int32 increase_damage_cut = 31;
+    repeated Unit last_targets = 32;
+    map<uint32, int32> within_action_value = 33;
+    int32 passive_added_damage = 34;
+    int32 passive_taken_damage = 35;
+    repeated EnchantInfo enchant_infos = 36;
+}
+
+message Jin {
+    BaseJin base = 1;
+    CurrentJin current = 2;
+}
+
+message BaseJin {
+    int32 index = 1;
+    int32 jin_position = 2;
+    uint32 skill = 3;
+    uint32 jin_id = 4;
+    string ipfs = 5;
+    uint32 jin_type = 6;
+}
+
+message CurrentJin {
+    int32 index = 1;
+    int32 jin_position = 2;
+    bool skill_activated = 3;
+    int32 skill_activated_active_action_counts = 4; // jin自体の終了チェック
+    int32 last_jin_skill_effect_active_action_counts = 5; // 継続jinskillの発動チェック
+    bool already_skill_activated = 6;
+    bool already_position_changed = 7;
+}
+
+message FieldState {
+    uint32 state = 1;
+    int32 activater_position = 2;
+}
+
+message Skill {
+    uint32 skill_id = 1;
+    Condition condition = 2;
+    enum Condition {
+        NONE = 0;
+        ACTIVE = 1;
+        OPENING = 2;
+        COUNTER = 3;
+        SELF_HP = 4;
+        ALLY_HP = 5;
+        DEATH = 6;
+        EVERY = 7;
+        ALLY = 8;
+        ENEMY = 9;
+        ALLY_FRONT = 10;
+        ALLY_MIDDLE = 11;
+        ALLY_BACK = 12;
+        ENEMY_FRONT = 13;
+        ENEMY_MIDDLE = 14;
+        ENEMY_BACK = 15;
+        ENEMY_FIRST = 16;
+        ENEMY_LAST = 17;
+        SELF_PARAM_UNDER = 18;
+        SELF_PARAM_OVER = 19;
+        ENEMY_PARAM_UNDER = 20;
+        ENEMY_PARAM_OVER = 21;
+        ENEMY_HP = 22;
+        ACTIVE_SELF_HP = 23;
+        ACTIVE_ENEMY_STATUS = 24;
+    }
+    int32 condition_rate = 3;
+    repeated Effect effects = 4;
+    message Effect {
+        Target target = 1;
+        enum Target {
+            SELF = 0;
+            ENEMY_FIRST = 1;
+            ENEMY_ALL = 2;
+            ALLY_FIRST = 3;
+            ALLY_ALL = 4;
+            ALLY_LOWEST_HP = 5;
+            RANDOM = 6;
+            ENEMY_HIGHEST_HP = 7;
+            ENEMY_LOWEST_HP = 8;
+            ENEMY_HIGHEST_PHY = 9;
+            ENEMY_LOWEST_PHY = 10;
+            ENEMY_HIGHEST_INT = 11;
+            ENEMY_LOWEST_INT = 12;
+            ENEMY_HIGHEST_AGI = 13;
+            ENEMY_LOWEST_AGI = 14;
+            ENEMY_LAST = 15;
+            ENEMY_FRONT = 16;
+            ENEMY_MIDDLE = 17;
+            ENEMY_BACK = 18;
+            ALLY_HIGHEST_HP = 19;
+            ALLY_HIGHEST_PHY = 20;
+            ALLY_LOWEST_PHY = 21;
+            ALLY_HIGHEST_INT = 22;
+            ALLY_LOWEST_INT = 23;
+            ALLY_HIGHEST_AGI = 24;
+            ALLY_LOWEST_AGI = 25;
+            ALLY_LAST = 26;
+            ALLY_HIGHEST_BASE_HP = 27;
+            ALLY_LOWEST_BASE_HP = 28;
+            ENEMY_HIGHEST_BASE_HP = 29;
+            ENEMY_LOWEST_BASE_HP = 30;
+            ALLY_MIDDLE = 31;
+            ALLY_FRONT = 32;
+            ALLY_BACK = 33;
+            NO_TARGET = 34;
+        }
+        Param param = 2;
+        enum Param {
+            NONE = 0;
+            HP = 1;
+            PHY = 2;
+            INT = 3;
+            AGI = 4;
+            POISON = 5;
+            SLEEP = 6;
+            CONFUSION = 7;
+            FEAR = 8;
+            BARRIER = 9;
+            BLEED = 10;
+            CANCEL_CONFUSION = 11;
+            CANCEL_FEAR = 12;
+            STUN = 13;
+            PHY_INT_HIGHER = 14;
+            PHY_INT_LOWER = 15;
+            PHY_INT_AGI_HIGHEST = 16;
+            PHY_INT_AGI_LOWEST = 17;
+            PROSTRATION = 18;
+            DECOY = 19;
+            CANCEL_BLEED = 20;
+            CHARGE = 21;
+            STATIC_HP = 22;
+            STATIC_PHY = 23;
+            STATIC_INT = 24;
+            STATIC_AGI = 25;
+            STATIC_CHARGE = 26;
+            CURSE = 27;
+            SHIELD = 28;
+            CHARM = 29;
+            CANCEL_STATUS = 30;
+        }
+        Calc calc = 3;
+        enum Calc {
+            MY_PHY          = 0;
+            MY_INT          = 1;
+            MY_AGI          = 2;
+            MY_INT_YOUR_PHY = 3; // 回復係数
+            MY_DAMAGED_IN_ACTION = 4;
+            MY_MAX_HP       = 5;
+            MY_DAMAGE       = 6;
+            YOUR_PHY        = 7;
+            YOUR_INT        = 8;
+            YOUR_AGI        = 9;
+            YOUR_PHY_BUFF   = 10;
+            YOUR_INT_BUFF   = 11;
+            YOUR_AGI_BUFF   = 12;
+            YOUR_PHY_DEBUFF = 13;
+            YOUR_INT_DEBUFF = 14;
+            YOUR_AGI_DEBUFF = 15;
+            MY_PHY_BUFF     = 16;
+            MY_INT_BUFF     = 17;
+            MY_AGI_BUFF     = 18;
+            MY_PHY_DEBUFF   = 19;
+            MY_INT_DEBUFF   = 20;
+            MY_AGI_DEBUFF   = 21;
+            MY_TOTAL_BUFF = 22;
+            MY_TOTAL_DEBUFF = 23;
+            ALLY_TOTAL_BUFF = 24;
+            ALLY_TOTAL_DEBUFF = 25;
+            YOUR_TOTAL_BUFF = 26;
+            YOUR_TOTAL_DEBUFF = 27;
+            ENEMY_TOTAL_BUFF = 28;
+            ENEMY_TOTAL_DEBUFF = 29;
+            MY_PHY_YOUR_INT = 30;
+            ALLY_TOTAL_PHY_BUFF = 31;
+            ALLY_TOTAL_PHY_DEBUFF = 32;
+            ALLY_TOTAL_INT_BUFF = 33;
+            ALLY_TOTAL_INT_DEBUFF = 34;
+            ALLY_TOTAL_AGI_BUFF = 35;
+            ALLY_TOTAL_AGI_DEBUFF = 36;
+            ENEMY_TOTAL_PHY_BUFF = 37;
+            ENEMY_TOTAL_PHY_DEBUFF = 38;
+            ENEMY_TOTAL_INT_BUFF = 39;
+            ENEMY_TOTAL_INT_DEBUFF = 40;
+            ENEMY_TOTAL_AGI_BUFF = 41;
+            ENEMY_TOTAL_AGI_DEBUFF = 42;
+            MY_SLEEP_PHY = 43;
+            MY_POISON_PHY = 44;
+            MY_BLEED_INT = 45;
+            MY_BARRIER_INT = 46;
+            MY_BLEED_INT_YOUR_PHY = 47; // 出血時回復係数
+            YOUR_MAX_HP = 48;
+            MY_DECREASED_HP = 49;
+            YOUR_DECREASED_HP = 50;
+            MY_CHARGE = 51;
+            YOUR_CHARGE = 52;
+            STATIC = 53;
+            MY_POISON_INT = 54;
+            MY_FEAR_INT = 55;
+            MY_FEAR_AGI = 56;
+            ALLY_LAST_HP = 57;
+            ALLY_LAST_PHY = 58;
+            ALLY_LAST_INT = 59;
+            ALLY_LAST_AGI = 60;
+            ALLY_FIRST_HP = 61;
+            ALLY_FIRST_PHY = 62;
+            ALLY_FIRST_INT = 63;
+            ALLY_FIRST_AGI = 64;
+            ALLY_MIDDLE_HP = 65;
+            ALLY_MIDDLE_PHY = 66;
+            ALLY_MIDDLE_INT = 67;
+            ALLY_MIDDLE_AGI = 68;
+            ALLY_TOTAL_HP = 69;
+            ALLY_TOTAL_PHY = 70;
+            ALLY_TOTAL_INT = 71;
+            ALLY_TOTAL_AGI = 72;
+            ENEMY_LAST_HP = 73;
+            ENEMY_LAST_PHY = 74;
+            ENEMY_LAST_INT = 75;
+            ENEMY_LAST_AGI = 76;
+            ENEMY_FIRST_HP = 77;
+            ENEMY_FIRST_PHY = 78;
+            ENEMY_FIRST_INT = 79;
+            ENEMY_FIRST_AGI = 80;
+            ENEMY_MIDDLE_HP = 81;
+            ENEMY_MIDDLE_PHY = 82;
+            ENEMY_MIDDLE_INT = 83;
+            ENEMY_MIDDLE_AGI = 84;
+            ENEMY_TOTAL_HP = 85;
+            ENEMY_TOTAL_PHY = 86;
+            ENEMY_TOTAL_INT = 87;
+            ENEMY_TOTAL_AGI = 88;
+            MY_RECOVERED_IN_ACTION = 89;
+        }
+        AdditionalCalc additional_calc = 4;
+        enum AdditionalCalc {
+            NO_ADDITIONAL = 0;
+            POISON_UNIT = 1;
+            SLEEP_UNIT = 2;
+            CONFUSION_UNIT = 3;
+            FEAR_UNIT = 4;
+            BARRIER_UNIT = 5;
+            BLEED_UNIT = 6;
+            STUN_UNIT = 7;
+            PROSTRATION_UNIT = 8;
+            CURSE_UNIT = 9;
+            CHARM_UNIT = 10;
+            DECOY_UNIT = 11;
+        }
+        int32 min_rate = 5;
+        int32 max_rate = 6;
+        bool is_damage = 7;
+        int32 additional_rate = 8;
+    }
+    int32 secondary_rate = 5;
+    repeated EnchantInfo enchant_infos = 6;
+    bool has_enchant = 7;
+}
+
+message Aura {
+    uint32 aura_id = 1;
+    Condition condition = 2;
+    enum Condition {
+        NONE = 0;
+        ACTIVE = 1;
+        OPENING = 2;
+        COUNTER = 3;
+        SELF_HP = 4;
+        ALLY_HP = 5;
+        DEATH = 6;
+        EVERY = 7;
+        ALLY = 8;
+        ENEMY = 9;
+        ALLY_FRONT = 10;
+        ALLY_MIDDLE = 11;
+        ALLY_BACK = 12;
+        ENEMY_FRONT = 13;
+        ENEMY_MIDDLE = 14;
+        ENEMY_BACK = 15;
+        ENEMY_FIRST = 16;
+        ENEMY_LAST = 17;
+        SELF_PARAM_UNDER = 18;
+        SELF_PARAM_OVER = 19;
+        ENEMY_PARAM_UNDER = 20;
+        ENEMY_PARAM_OVER = 21;
+        ENEMY_HP = 22;
+        QUEST_AURA = 23;
+        MINING_AURA = 24;
+        UNIQUE_PASSIVE = 25;
+        UNIQUE_EDIT = 26;
+        PASSIVE_ADDITION = 27;
+        ALLY_DEATH = 28;
+        ACTIVE_ALLY_ONE_HP = 29;
+        STATUS_CONFUSION = 30;
+        ACTIVE_ALLY_HP = 31;
+        ACTIVE_COUNTER = 32;
+        AURA = 33;
+    }
+    Type condition_type = 3;
+    enum Type {
+        NORMAL = 0;
+        EFFECT = 1;
+        SECONDARY = 2;
+        SECONDARY_EFFECT = 3;
+        CONDITION = 4;
+    }
+    int32 condition_value = 4;
+    int32 condition_rate = 5;
+    bool is_within_action = 6;
+    repeated Effect effects = 7;
+    message Effect {
+        Target target = 1;
+        enum Target {
+            SELF = 0;
+            ENEMY_FIRST = 1;
+            ENEMY_ALL = 2;
+            ALLY_FIRST = 3;
+            ALLY_ALL = 4;
+            ALLY_LOWEST_HP = 5;
+            RANDOM = 6;
+            ENEMY_HIGHEST_HP = 7;
+            ENEMY_LOWEST_HP = 8;
+            ENEMY_HIGHEST_PHY = 9;
+            ENEMY_LOWEST_PHY = 10;
+            ENEMY_HIGHEST_INT = 11;
+            ENEMY_LOWEST_INT = 12;
+            ENEMY_HIGHEST_AGI = 13;
+            ENEMY_LOWEST_AGI = 14;
+            ENEMY_LAST = 15;
+            ENEMY_FRONT = 16;
+            ENEMY_MIDDLE = 17;
+            ENEMY_BACK = 18;
+            ALLY_HIGHEST_HP = 19;
+            ALLY_HIGHEST_PHY = 20;
+            ALLY_LOWEST_PHY = 21;
+            ALLY_HIGHEST_INT = 22;
+            ALLY_LOWEST_INT = 23;
+            ALLY_HIGHEST_AGI = 24;
+            ALLY_LOWEST_AGI = 25;
+            ALLY_LAST = 26;
+            ALLY_HIGHEST_BASE_HP = 27;
+            ALLY_LOWEST_BASE_HP = 28;
+            ENEMY_HIGHEST_BASE_HP = 29;
+            ENEMY_LOWEST_BASE_HP = 30;
+            ALLY_MIDDLE = 31;
+            ALLY_FRONT = 32;
+            ALLY_BACK = 33;
+            ALLY_DEATH = 34;
+            TARGET = 35;
+            DAMAGED_IN_ACTION = 36;
+            ALL = 37;
+        }
+        Param param = 2;
+        enum Param {
+            NONE = 0;
+            HP = 1;
+            PHY = 2;
+            INT = 3;
+            AGI = 4;
+            POISON = 5;
+            SLEEP = 6;
+            CONFUSION = 7;
+            FEAR = 8;
+            BARRIER = 9;
+            BLEED = 10;
+            CANCEL_CONFUSION = 11;
+            CANCEL_FEAR = 12;
+            STUN = 13;
+            PHY_INT_HIGHER = 14;
+            PHY_INT_LOWER = 15;
+            PHY_INT_AGI_HIGHEST = 16;
+            PHY_INT_AGI_LOWEST = 17;
+            PROSTRATION = 18;
+            DECOY = 19;
+            CANCEL_BLEED = 20;
+            CHARGE = 21;
+            STATIC_HP = 22;
+            STATIC_PHY = 23;
+            STATIC_INT = 24;
+            STATIC_AGI = 25;
+            STATIC_CHARGE = 26;
+            CURSE = 27;
+            SHIELD = 28;
+            CHARM = 29;
+            DAMAGE_CUT_AGI = 30;
+            DAMAGE_CUT_HP = 31;
+            CRITICAL_PHY = 32;
+            CRITICAL_INT = 33;
+            INITIAL_HP = 34;
+            INITIAL_PHY = 35;
+            INITIAL_INT = 36;
+            INITIAL_AGI = 37;
+            // PHY_INT_AGI = 38;
+            INCREASE_DAMAGE_CUT = 39;
+            RESURRECTION = 40;
+            RESISTANCE_POISON = 41;
+            RESISTANCE_CONFUSION = 42;
+            RESISTANCE_FEAR = 43;
+            RESISTANCE_STUN = 44;
+            INFLICT_POISON = 45;
+            RECOVERY_CONFUSION = 46;
+            MY_ADD_PHY_DAMAGE = 47;
+            MY_ADD_INT_DAMAGE = 48;
+            MY_RECEIVE_PHY_DAMAGE = 49;
+            MY_RECEIVE_INT_DAMAGE = 50;
+        }
+        Calc calc = 3;
+        enum Calc {
+            MY_PHY          = 0;
+            MY_INT          = 1;
+            MY_AGI          = 2;
+            MY_INT_YOUR_PHY = 3; // 回復係数
+            MY_DAMAGED_IN_ACTION = 4;
+            MY_MAX_HP       = 5;
+            MY_DAMAGE       = 6;
+            YOUR_PHY        = 7;
+            YOUR_INT        = 8;
+            YOUR_AGI        = 9;
+            YOUR_PHY_BUFF   = 10;
+            YOUR_INT_BUFF   = 11;
+            YOUR_AGI_BUFF   = 12;
+            YOUR_PHY_DEBUFF = 13;
+            YOUR_INT_DEBUFF = 14;
+            YOUR_AGI_DEBUFF = 15;
+            MY_PHY_BUFF     = 16;
+            MY_INT_BUFF     = 17;
+            MY_AGI_BUFF     = 18;
+            MY_PHY_DEBUFF   = 19;
+            MY_INT_DEBUFF   = 20;
+            MY_AGI_DEBUFF   = 21;
+            MY_TOTAL_BUFF = 22;
+            MY_TOTAL_DEBUFF = 23;
+            ALLY_TOTAL_BUFF = 24;
+            ALLY_TOTAL_DEBUFF = 25;
+            YOUR_TOTAL_BUFF = 26;
+            YOUR_TOTAL_DEBUFF = 27;
+            ENEMY_TOTAL_BUFF = 28;
+            ENEMY_TOTAL_DEBUFF = 29;
+            MY_PHY_YOUR_INT = 30;
+            ALLY_TOTAL_PHY_BUFF = 31;
+            ALLY_TOTAL_PHY_DEBUFF = 32;
+            ALLY_TOTAL_INT_BUFF = 33;
+            ALLY_TOTAL_INT_DEBUFF = 34;
+            ALLY_TOTAL_AGI_BUFF = 35;
+            ALLY_TOTAL_AGI_DEBUFF = 36;
+            ENEMY_TOTAL_PHY_BUFF = 37;
+            ENEMY_TOTAL_PHY_DEBUFF = 38;
+            ENEMY_TOTAL_INT_BUFF = 39;
+            ENEMY_TOTAL_INT_DEBUFF = 40;
+            ENEMY_TOTAL_AGI_BUFF = 41;
+            ENEMY_TOTAL_AGI_DEBUFF = 42;
+            MY_SLEEP_PHY = 43;
+            MY_POISON_PHY = 44;
+            MY_BLEED_INT = 45;
+            MY_BARRIER_INT = 46;
+            MY_BLEED_INT_YOUR_PHY = 47; // 出血時回復係数
+            YOUR_MAX_HP = 48;
+            MY_DECREASED_HP = 49;
+            YOUR_DECREASED_HP = 50;
+            MY_CHARGE = 51;
+            YOUR_CHARGE = 52;
+            STATIC = 53;
+            MY_POISON_INT = 54;
+            MY_FEAR_INT = 55;
+            MY_FEAR_AGI = 56;
+            ALLY_LAST_HP = 57;
+            ALLY_LAST_PHY = 58;
+            ALLY_LAST_INT = 59;
+            ALLY_LAST_AGI = 60;
+            ALLY_FIRST_HP = 61;
+            ALLY_FIRST_PHY = 62;
+            ALLY_FIRST_INT = 63;
+            ALLY_FIRST_AGI = 64;
+            ALLY_MIDDLE_HP = 65;
+            ALLY_MIDDLE_PHY = 66;
+            ALLY_MIDDLE_INT = 67;
+            ALLY_MIDDLE_AGI = 68;
+            ALLY_TOTAL_HP = 69;
+            ALLY_TOTAL_PHY = 70;
+            ALLY_TOTAL_INT = 71;
+            ALLY_TOTAL_AGI = 72;
+            ENEMY_LAST_HP = 73;
+            ENEMY_LAST_PHY = 74;
+            ENEMY_LAST_INT = 75;
+            ENEMY_LAST_AGI = 76;
+            ENEMY_FIRST_HP = 77;
+            ENEMY_FIRST_PHY = 78;
+            ENEMY_FIRST_INT = 79;
+            ENEMY_FIRST_AGI = 80;
+            ENEMY_MIDDLE_HP = 81;
+            ENEMY_MIDDLE_PHY = 82;
+            ENEMY_MIDDLE_INT = 83;
+            ENEMY_MIDDLE_AGI = 84;
+            ENEMY_TOTAL_HP = 85;
+            ENEMY_TOTAL_PHY = 86;
+            ENEMY_TOTAL_INT = 87;
+            ENEMY_TOTAL_AGI = 88;
+            MY_RECOVERED_IN_ACTION = 89;
+        }
+        int32 min_rate = 4;
+        int32 effect_rate = 5;
+        int32 additional_rate = 6;
+        bool is_damage = 7;
+    }
+}
+
+message JinSkill {
+    uint32 jin_skill_id = 1;
+    uint32 attribute_type = 2;
+    int32 required_active_action_count = 3;
+    int32 valid_active_action_count = 4;
+    // uint32 field_effect_id = 5;
+    uint32 opening_jin_skill_effect_id = 6;
+    uint32 continual_jin_skill_effect_id = 7;
+    uint32 finish_jin_skill_effect_id = 8;
+    FieldTarget field_target = 9;
+    enum FieldTarget {
+        NO_TARGET = 0;
+        OVERALL_FIELD = 1;
+        ALLY_FIELD = 2;
+        ENEMY_FIELD = 3;
+    }
+    enum FieldState {
+        NO_STATE = 0;
+        NO_INT_DAMAGE = 1;
+        NO_PHY_DAMAGE = 2;
+        NO_RECOVERY = 3;
+        DIVIDE_DAMAGE = 4;
+    }
+    FieldState field_state = 10;
+}
+
+message JinSkillEffect {
+    uint32 jin_skill_effect_id = 1;
+    int32 required_active_action_count = 2;
+    repeated Effect effects = 4;
+    message Effect {
+        Target target = 1;
+        enum Target {
+            ENEMY_FIRST = 0;
+            ENEMY_ALL = 1;
+            ALLY_FIRST = 2;
+            ALLY_ALL = 3;
+            RANDOM = 4;
+            ENEMY_HIGHEST_HP = 5;
+            ENEMY_LOWEST_HP = 6;
+            ENEMY_HIGHEST_PHY = 7;
+            ENEMY_LOWEST_PHY = 8;
+            ENEMY_HIGHEST_INT = 9;
+            ENEMY_LOWEST_INT = 10;
+            ENEMY_HIGHEST_AGI = 11;
+            ENEMY_LOWEST_AGI = 12;
+            ENEMY_LAST = 15;
+            ENEMY_FRONT = 16;
+            ENEMY_MIDDLE = 17;
+            ENEMY_BACK = 18;
+            ALL = 19;
+            ALLY_LAST = 20;
+            ALLY_FRONT = 21;
+            ALLY_MIDDLE = 22;
+            ALLY_BACK = 23;
+            // ALLY_HIGHEST_HP = 19;
+            // ALLY_HIGHEST_PHY = 20;
+            // ALLY_LOWEST_PHY = 21;
+            // ALLY_HIGHEST_INT = 22;
+            // ALLY_LOWEST_INT = 23;
+            // ALLY_HIGHEST_AGI = 24;
+            // ALLY_LOWEST_AGI = 25;
+            // ALLY_LAST = 26;
+            // ALLY_HIGHEST_BASE_HP = 27;
+            // ALLY_LOWEST_BASE_HP = 28;
+            // ENEMY_HIGHEST_BASE_HP = 29;
+            // ENEMY_LOWEST_BASE_HP = 30;
+        }
+        Param param = 2;
+        enum Param {
+            NONE = 0;
+            HP = 1;
+            PHY = 2;
+            INT = 3;
+            AGI = 4;
+            POISON = 5;
+            SLEEP = 6;
+            CONFUSION = 7;
+            FEAR = 8;
+            BARRIER = 9;
+            BLEED = 10;
+            // CANCEL_CONFUSION = 11;
+            // CANCEL_FEAR = 12;
+            STUN = 13;
+            PROSTRATION = 14;
+            DECOY = 15;
+            CANCEL_BLEED = 16;
+        }
+        Calc calc = 3;
+        enum Calc {
+            OUR_PHY          = 0;
+            OUR_INT          = 1;
+            OUR_AGI          = 2;
+            OUR_INT_YOUR_PHY = 3;
+            OUR_MAX_HP       = 4;
+            OUR_DAMAGE       = 5;
+            YOUR_PHY        = 6;
+            YOUR_INT        = 7;
+            YOUR_AGI        = 8;
+            // YOUR_PHY_BUFF   = 10;
+            // YOUR_INT_BUFF   = 11;
+            // YOUR_AGI_BUFF   = 12;
+            // YOUR_PHY_DEBUFF = 13;
+            // YOUR_INT_DEBUFF = 14;
+            // YOUR_AGI_DEBUFF = 15;
+            // MY_PHY_BUFF     = 16;
+            // MY_INT_BUFF     = 17;
+            // MY_AGI_BUFF     = 18;
+            // MY_PHY_DEBUFF   = 19;
+            // MY_INT_DEBUFF   = 20;
+            // MY_AGI_DEBUFF   = 21;
+            // MY_TOTAL_BUFF = 22;
+            // MY_TOTAL_DEBUFF = 23;
+            // ALLY_TOTAL_BUFF = 24;
+            // ALLY_TOTAL_DEBUFF = 25;
+            // YOUR_TOTAL_BUFF = 26;
+            // YOUR_TOTAL_DEBUFF = 27;
+            // ENEMY_TOTAL_BUFF = 28;
+            // ENEMY_TOTAL_DEBUFF = 29;
+            // MY_PHY_YOUR_INT = 30;
+            // ALLY_TOTAL_PHY_BUFF = 31;
+            // ALLY_TOTAL_PHY_DEBUFF = 32;
+            // ALLY_TOTAL_INT_BUFF = 33;
+            // ALLY_TOTAL_INT_DEBUFF = 34;
+            // ALLY_TOTAL_AGI_BUFF = 35;
+            // ALLY_TOTAL_AGI_DEBUFF = 36;
+            ENEMY_TOTAL_PHY_BUFF = 37;
+            // ENEMY_TOTAL_PHY_DEBUFF = 38;
+            ENEMY_TOTAL_INT_BUFF = 39;
+            // ENEMY_TOTAL_INT_DEBUFF = 40;
+            // ENEMY_TOTAL_AGI_BUFF = 41;
+            // ENEMY_TOTAL_AGI_DEBUFF = 42;
+            // MY_SLEEP_PHY = 43;
+        }
+        int32 min_rate = 4;
+        int32 max_rate = 5;
+        bool is_damage = 6;
+    }
+}
+
+message EnchantInfo {
+    Enchant enchant_type = 1;
+    enum Enchant {
+        NO_ENCHANT = 0;
+        REDUCTION = 1;
+    }
+    int32 rate = 2;
+    bool enabled = 3;
+}
