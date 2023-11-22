@@ -29,13 +29,10 @@ protoc --js_out=import_style=commonjs,binary:./src/assets/_proto $file
 ```
 
 
-# 手順
+# yarn手順
 ```
-
 yarn global add protoc-gen-js
 yarn global bin
 export PATH=$PATH:/Users/saitoshosuke/.yarn/bin
 source ~/.zshrc
-yarn global add grpc-web
-make proto
 ```
