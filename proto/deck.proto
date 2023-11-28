@@ -1,0 +1,262 @@
+syntax = "proto3";
+
+package deck;
+
+option go_package = "github.com/hijjiri/pb-files-generator/deck";
+
+service DeckService {
+    rpc GetDeck(Uid) returns (MiniDeck) {}
+    rpc GetMyDecks(Empty) returns (Decks) {}
+    rpc SetMyDeck(SetMyDeckRequest) returns (Empty) {}
+    rpc RecoveryStamina(StaminaRequest) returns (Empty) {}
+    // rpc GetRecoveryStaminaFee(StaminaRequest) returns (Gum) {} // deprecated
+    rpc GetCupDeck(UidCup) returns (MiniDeck) {}
+    rpc GetCupDecks(UidsCup) returns (MiniDecksWithUid) {}
+    rpc SetMyCupDeck(CupDeck) returns (Empty) {}
+    rpc BreakupPrimeDeck(Empty) returns (Empty) {}
+    rpc SetMyKnightDeck(Deck) returns (Empty) {}
+    rpc SetMyWarDeck(Deck) returns (Empty) {}
+    rpc GetOurFlagDecks(Empty) returns (FlagDecks) {}
+    // rpc SetMyArenaDeck(Deck) returns (Empty) {}  // deprecated
+    // rpc InitMyNineDeck(CupHeroIds) returns (Empty) {}
+    rpc SetMyNineDeck(CupDeck) returns (Empty) {}
+    rpc SetMyThreeOnThreeOnThreeDecks(SetThreeOnThreeOnThreeDeckRequest) returns (Empty) {}
+    rpc SwitchThreeOnThreeOnThreeDecksOrder(DeckNumbers) returns(Empty) {}
+    // rpc InitMyArenaNineDeck(HeroIds) returns (Empty) {}  // deprecated
+    // rpc SetMyArenaNineDeck(Deck) returns (Empty) {}  // deprecated
+    rpc SetMyArenaDeckV2(SetMyArenaDeckRequest) returns (Empty) {}
+
+    rpc SetMyColosseumOffenseDeck(Deck) returns (Empty) {}
+    rpc SetMyColosseumDefenseDeckV2(SetMyDeckRequest) returns (Empty) {}
+    // rpc SetMyColosseumDefenseDeck(Deck) returns (Empty) {} // deprecated
+
+    rpc SetMyQuestSixDeck(Deck) returns (Empty) {}
+
+    rpc SetGymDeck(SetGymDeckRequest) returns (Empty) {}
+    rpc SetSoulDeck(SetSoulDeckRequest) returns (Empty) {}
+    rpc ClearSoulDeck(Empty) returns (Empty) {}
+    rpc SetSoulBattleDeck(SetSoulDeckRequest) returns (Empty) {}
+    rpc ClearSoulBattleDeck(DeckNo) returns (Empty) {}
+
+    rpc GetMyDeckTemplates(Empty) returns (DeckTemplates) {}
+    rpc CreateMyDeckTemplate(HeroIds) returns (Empty) {}
+    rpc DeleteMyDeckTemplate(DeckTemplateNo) returns (Empty) {}
+    rpc SetMyDeckTemplate(SetMyTemplateRequest) returns (Empty) {}
+    rpc SwitchMyDeckTemplateOrder(TemplateNumbers) returns (Empty) {}
+    rpc CreateMyQuestDeckTemplate(HeroIds) returns (Empty) {}
+    rpc DeleteMyQuestDeckTemplate(DeckTemplateNo) returns (Empty) {}
+    rpc SetMyQuestDeckTemplate(SetMyTemplateRequest) returns (Empty) {}
+    rpc SwitchMyQuestDeckTemplateOrder(TemplateNumbers) returns (Empty) {}
+    rpc GetMyDeckTemplateInfo(Empty) returns (DeckTemplateInfo) {}
+
+    //Rating duel
+    rpc SetMyRatingDuelOffenseDecks(SetRatingDuelOffenseDeckRequest) returns (Empty) {}
+    rpc SetMyRatingDuelDefenseDeck(SetRatingDuelDefenseDeckRequest) returns (Empty) {}
+
+    rpc SetMyRaidDeck(Deck) returns (Empty) {}
+}
+
+message Uid {
+    uint32 uid = 1;
+}
+
+message DeckTemplateInfo {
+    uint32 uid = 1;
+    map<uint32, int32> template_type_expansion_count = 2;
+}
+
+enum DeckTemplateType {
+    NOTYPE = 0;
+    DUEL_DECK_TEMPLATE = 1;
+    QUEST_DECK_TEMPLATE = 2;
+}
+
+message Decks {
+    repeated Deck decks = 1; // for quest 初期実装時命名
+    Deck cup_deck = 2 [deprecated=true];
+    Deck knight_deck = 3;
+    Deck arena_deck = 4 [deprecated=true];
+    Deck nine_deck = 5 [deprecated=true];
+    Deck arena_nine_deck = 6 [deprecated=true];
+    map<uint32,Deck> arena_decks = 7;
+    Deck colosseum_offense_deck = 9;
+    Deck colosseum_defense_deck = 10 [deprecated=true];
+    Deck quest_six_deck = 11;
+    repeated Deck colosseum_defense_decks = 12;
+    Deck war_deck = 13;
+    map<uint32, DeckList> gym_decks = 14;
+    map<uint32, Deck> cup_three_decks = 15;
+    map<uint32, Deck> cup_nine_decks = 16;
+    map<uint32, Deck> soul_decks = 17;
+    map<uint32, SoulDeck> soul_battle_decks = 18;
+    map<uint32, DeckList> cup_regimental_decks = 19;
+    map<uint32, DeckList> rating_duel_offense_decks = 20;
+    map<uint32, RatingDuelDefenseDeck> rating_duel_defense_deck = 21;
+    map<uint32, DeckList> three_on_three_on_three_decks = 22;
+    Deck raid_deck = 23;
+    CraftDeck craft_deck = 24;
+}
+
+message HeroIds {
+    repeated uint32 hero_ids = 1;
+}
+
+message FlagDecks {
+    repeated uint32 uids = 1;
+    repeated Deck decks = 2;
+}
+
+message DeckList {
+    repeated Deck deck_list = 1;
+}
+
+message Deck {
+    repeated DeckUnit units = 1;
+    uint32 jin_id = 2 [deprecated=true];
+    repeated uint32 jin_ids = 3;
+    string name = 4;
+}
+
+message CupDeck {
+    Deck deck = 1;
+    uint32 cup_id = 2;
+}
+
+message SoulDeck {
+    Deck deck = 1;
+    uint32 soul_id = 2;
+}
+
+message CraftDeck {
+    repeated uint32 hero_ids = 1;
+}
+
+message RatingDuelDefenseDeck {
+    Deck deck = 1;
+    repeated int32 hidden_unit_indexes = 2;
+}
+
+message DeckTemplates {
+    repeated DeckTemplate deck_templates = 1;
+    repeated DeckTemplate quest_deck_templates = 2;
+}
+
+message DeckTemplate {
+    repeated DeckUnit units = 1;
+    uint32 jin_id = 2 [deprecated=true];
+    repeated uint32 jin_ids = 3;
+    string name = 4;
+}
+
+message DeckUnit {
+    uint32 hero_id = 1;
+    repeated uint32 extension_ids = 2;
+    repeated int32 skill_orders = 3;
+    int32 hero_active_index = 4;
+    repeated uint32 active_auras = 5;
+    uint32 active_skill = 6;
+}
+
+message MiniDeck {
+    repeated uint32 hero_ids = 1;
+    uint32 jin_id = 2 [deprecated=true];
+    repeated uint32 jin_ids = 3;
+}
+
+message MiniDeckWithUid {
+    uint32 uid = 1;
+    MiniDeck deck = 2;
+}
+
+message MiniDecksWithUid {
+    repeated MiniDeckWithUid decks = 1;
+}
+
+message SetMyDeckRequest {
+    int32 deck_no = 1;
+    Deck deck = 2;
+}
+
+message SetGymDeckRequest {
+    uint32 gym_id = 1;
+    int32 deck_no = 2;
+    Deck deck = 3;
+}
+
+message SetSoulDeckRequest {
+    uint32 soul_id = 1;
+    Deck deck = 2;
+    uint32 deck_no = 3;
+}
+
+message SetRatingDuelOffenseDeckRequest {
+    uint32 cup_id = 1;
+    int32 deck_no = 2;
+    Deck deck = 3;
+}
+
+message SetRatingDuelDefenseDeckRequest {
+    uint32 cup_id = 1;
+    RatingDuelDefenseDeck deck = 2;
+}
+
+message SetThreeOnThreeOnThreeDeckRequest {
+    uint32 cup_id = 1;
+    int32 deck_no = 2;
+    Deck deck = 3;
+}
+
+message SetMyArenaDeckRequest {
+    uint32 arena_id = 1;
+    Deck deck = 2;
+}
+
+message SetMyTemplateRequest {
+    int32 deck_template_no = 1;
+    DeckTemplate deck_template = 2;
+}
+
+message StaminaRequest {
+    int32 deck_no = 1;
+    int32 stamina = 2;
+    DeckType deck_type = 3;
+}
+
+enum DeckType {
+    QUEST = 0;
+    CUP = 1;
+    NINE = 2;
+}
+
+message Gum {
+    int32 gum = 1;
+}
+
+message DeckTemplateNo {
+    int32 deck_template_no = 1;
+}
+
+message TemplateNumbers {
+    repeated int32 template_numbers = 1;
+}
+
+message DeckNumbers {
+    repeated int32 deck_numbers = 1;
+    uint32 cup_id = 2;
+}
+
+message UidCup {
+    uint32 uid = 1;
+    uint32 cup_id = 2;
+}
+
+message UidsCup {
+    repeated uint32 uids = 1;
+    uint32 cup_id = 2;
+}
+
+message DeckNo {
+    uint32 deck_no = 1;
+}
+
+message Empty {}
