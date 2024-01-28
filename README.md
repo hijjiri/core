@@ -3,6 +3,9 @@
 # .envrcを適用させたら以下のコマンドを実行
 ```
 //出力されればOK！
+which protoc
+which protoc-gen-go-grpc
+which protoc-gen-grpc-gateway
 which go
 which protoc-gen-go
 which protoc-gen-grpc-web
@@ -10,6 +13,22 @@ which protoc-gen-js
 ```
 
 #　インストールと実行ファイル
+```
+sudo apt install protobuf-compiler
+protoc --version
+```
+
+```
+go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
+```
+wget https://github.com/grpc-ecosystem/grpc-gateway/releases/download/v2.19.0/protoc-gen-grpc-gateway-v2.19.0-linux-x86_64
+chmod +x protoc-gen-grpc-gateway-v2.19.0-linux-x86_64
+sudo mv protoc-gen-grpc-gateway-v2.19.0-linux-x86_64 /usr/local/bin/protoc-gen-grpc-gateway
+```
+
 ```
 go get google.golang.org/protobuf/cmd/protoc-gen-go
 //実行:
