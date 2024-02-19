@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package hero;
+
+option go_package = "github.com/hijjiri/pb-files-generator/hero";
+
+service HeroService {
+    rpc SaveIpfsSkillStock(Empty) returns (HeroTypeMaster) {}
+}
+
+message HeroTypeMaster {
+    uint32 hero_type = 1;
+    bool asset = 2;
+    int32 rarity = 3;
+    int32 supply = 4;
+    Param param = 5;
+    Param trend = 6;
+	uint32 active = 7; // deprecated
+	uint32 passive = 8;
+    string name = 9;
+    repeated string attribute = 16; // deprecated
+    repeated uint32 attribute_types = 17;
+    repeated uint32 passive_v2 = 18;
+}
+
+message Param {
+	int32 hp = 1;
+	int32 phy = 2;
+	int32 int = 3;
+    int32 agi = 4;
+}
+
+message Empty {}
