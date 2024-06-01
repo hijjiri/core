@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package deck;
 
-option go_package = "github.com/hijjiri/pb-files-generator/deck";
+option go_package = "github.com/hijjiri/core/deck";
 
 service DeckService {
     rpc GetDeck(Uid) returns (MiniDeck) {}

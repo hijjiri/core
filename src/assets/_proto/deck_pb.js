@@ -2,15 +2,24 @@
 /**
  * @fileoverview
  * @enhanceable
+ * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
+/* eslint-disable */
+// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global = Function('return this')();
+var global =
+    (typeof globalThis !== 'undefined' && globalThis) ||
+    (typeof window !== 'undefined' && window) ||
+    (typeof global !== 'undefined' && global) ||
+    (typeof self !== 'undefined' && self) ||
+    (function () { return this; }).call(null) ||
+    Function('return this')();
 
 goog.exportSymbol('proto.deck.CraftDeck', null, global);
 goog.exportSymbol('proto.deck.CupDeck', null, global);
@@ -1052,7 +1061,8 @@ proto.deck.DeckTemplateInfo.prototype.getTemplateTypeExpansionCountMap = functio
  */
 proto.deck.DeckTemplateInfo.prototype.clearTemplateTypeExpansionCountMap = function() {
   this.getTemplateTypeExpansionCountMap().clear();
-  return this;};
+  return this;
+};
 
 
 
@@ -1698,7 +1708,8 @@ proto.deck.Decks.prototype.getArenaDecksMap = function(opt_noLazyCreate) {
  */
 proto.deck.Decks.prototype.clearArenaDecksMap = function() {
   this.getArenaDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -1906,7 +1917,8 @@ proto.deck.Decks.prototype.getGymDecksMap = function(opt_noLazyCreate) {
  */
 proto.deck.Decks.prototype.clearGymDecksMap = function() {
   this.getGymDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -1928,7 +1940,8 @@ proto.deck.Decks.prototype.getCupThreeDecksMap = function(opt_noLazyCreate) {
  */
 proto.deck.Decks.prototype.clearCupThreeDecksMap = function() {
   this.getCupThreeDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -1950,7 +1963,8 @@ proto.deck.Decks.prototype.getCupNineDecksMap = function(opt_noLazyCreate) {
  */
 proto.deck.Decks.prototype.clearCupNineDecksMap = function() {
   this.getCupNineDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -1972,7 +1986,8 @@ proto.deck.Decks.prototype.getSoulDecksMap = function(opt_noLazyCreate) {
  */
 proto.deck.Decks.prototype.clearSoulDecksMap = function() {
   this.getSoulDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -1994,7 +2009,8 @@ proto.deck.Decks.prototype.getSoulBattleDecksMap = function(opt_noLazyCreate) {
  */
 proto.deck.Decks.prototype.clearSoulBattleDecksMap = function() {
   this.getSoulBattleDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -2016,7 +2032,8 @@ proto.deck.Decks.prototype.getCupRegimentalDecksMap = function(opt_noLazyCreate)
  */
 proto.deck.Decks.prototype.clearCupRegimentalDecksMap = function() {
   this.getCupRegimentalDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -2038,7 +2055,8 @@ proto.deck.Decks.prototype.getRatingDuelOffenseDecksMap = function(opt_noLazyCre
  */
 proto.deck.Decks.prototype.clearRatingDuelOffenseDecksMap = function() {
   this.getRatingDuelOffenseDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -2060,7 +2078,8 @@ proto.deck.Decks.prototype.getRatingDuelDefenseDeckMap = function(opt_noLazyCrea
  */
 proto.deck.Decks.prototype.clearRatingDuelDefenseDeckMap = function() {
   this.getRatingDuelDefenseDeckMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -2082,7 +2101,8 @@ proto.deck.Decks.prototype.getThreeOnThreeOnThreeDecksMap = function(opt_noLazyC
  */
 proto.deck.Decks.prototype.clearThreeOnThreeOnThreeDecksMap = function() {
   this.getThreeOnThreeOnThreeDecksMap().clear();
-  return this;};
+  return this;
+};
 
 
 /**
@@ -2236,8 +2256,10 @@ proto.deck.HeroIds.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setHeroIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addHeroIds(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -2394,8 +2416,10 @@ proto.deck.FlagDecks.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setUidsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addUids(values[i]);
+      }
       break;
     case 2:
       var value = new proto.deck.Deck;
@@ -2774,8 +2798,10 @@ proto.deck.Deck.deserializeBinaryFromReader = function(msg, reader) {
       msg.setJinId(value);
       break;
     case 3:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setJinIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addJinIds(values[i]);
+      }
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -3392,8 +3418,10 @@ proto.deck.CraftDeck.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setHeroIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addHeroIds(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -3554,8 +3582,10 @@ proto.deck.RatingDuelDefenseDeck.deserializeBinaryFromReader = function(msg, rea
       msg.setDeck(value);
       break;
     case 2:
-      var value = /** @type {!Array<number>} */ (reader.readPackedInt32());
-      msg.setHiddenUnitIndexesList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedInt32() : [reader.readInt32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addHiddenUnitIndexes(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -3981,8 +4011,10 @@ proto.deck.DeckTemplate.deserializeBinaryFromReader = function(msg, reader) {
       msg.setJinId(value);
       break;
     case 3:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setJinIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addJinIds(values[i]);
+      }
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
@@ -4246,20 +4278,26 @@ proto.deck.DeckUnit.deserializeBinaryFromReader = function(msg, reader) {
       msg.setHeroId(value);
       break;
     case 2:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setExtensionIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addExtensionIds(values[i]);
+      }
       break;
     case 3:
-      var value = /** @type {!Array<number>} */ (reader.readPackedInt32());
-      msg.setSkillOrdersList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedInt32() : [reader.readInt32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addSkillOrders(values[i]);
+      }
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt32());
       msg.setHeroActiveIndex(value);
       break;
     case 5:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setActiveAurasList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addActiveAuras(values[i]);
+      }
       break;
     case 6:
       var value = /** @type {number} */ (reader.readUint32());
@@ -4583,16 +4621,20 @@ proto.deck.MiniDeck.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setHeroIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addHeroIds(values[i]);
+      }
       break;
     case 2:
       var value = /** @type {number} */ (reader.readUint32());
       msg.setJinId(value);
       break;
     case 3:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setJinIdsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addJinIds(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -7175,8 +7217,10 @@ proto.deck.TemplateNumbers.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedInt32());
-      msg.setTemplateNumbersList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedInt32() : [reader.readInt32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addTemplateNumbers(values[i]);
+      }
       break;
     default:
       reader.skipField();
@@ -7332,8 +7376,10 @@ proto.deck.DeckNumbers.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedInt32());
-      msg.setDeckNumbersList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedInt32() : [reader.readInt32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addDeckNumbers(values[i]);
+      }
       break;
     case 2:
       var value = /** @type {number} */ (reader.readUint32());
@@ -7678,8 +7724,10 @@ proto.deck.UidsCup.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
-      msg.setUidsList(value);
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addUids(values[i]);
+      }
       break;
     case 2:
       var value = /** @type {number} */ (reader.readUint32());

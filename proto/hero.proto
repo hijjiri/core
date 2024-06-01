@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package hero;
 
-option go_package = "github.com/hijjiri/pb-files-generator/hero";
+option go_package = "github.com/hijjiri/core/hero";
 
 service HeroService {
     rpc SaveIpfsSkillStock(Empty) returns (HeroTypeMaster) {}

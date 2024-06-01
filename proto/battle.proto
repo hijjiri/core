@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package battle;
 
-option go_package = "github.com/hijjiri/pb-files-generator/battle";
+option go_package = "github.com/hijjiri/core/battle";
 
 import "google/api/annotations.proto";
 

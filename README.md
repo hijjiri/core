@@ -1,4 +1,4 @@
-# pb-files-generator
+# core
 
 # .envrcを適用させたら以下のコマンドを実行
 ```
