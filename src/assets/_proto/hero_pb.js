@@ -2,24 +2,15 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
-// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.hero.Empty', null, global);
 goog.exportSymbol('proto.hero.HeroTypeMaster', null, global);
@@ -217,16 +208,12 @@ proto.hero.HeroTypeMaster.deserializeBinaryFromReader = function(msg, reader) {
       msg.addAttribute(value);
       break;
     case 17:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addAttributeTypes(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setAttributeTypesList(value);
       break;
     case 18:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addPassiveV2(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setPassiveV2List(value);
       break;
     default:
       reader.skipField();

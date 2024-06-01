@@ -2,24 +2,15 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
  */
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
-// @ts-nocheck
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 var google_api_annotations_pb = require('./google/api/annotations_pb.js');
 goog.object.extend(proto, google_api_annotations_pb);
@@ -736,10 +727,8 @@ proto.battle.Battle.deserializeBinaryFromReader = function(msg, reader) {
       msg.setLastActivePosition(value);
       break;
     case 10:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addUids(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setUidsList(value);
       break;
     case 11:
       var value = msg.getRulesMap();
@@ -764,10 +753,8 @@ proto.battle.Battle.deserializeBinaryFromReader = function(msg, reader) {
       msg.setActionLimit(value);
       break;
     case 16:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addJinIds(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setJinIdsList(value);
       break;
     case 17:
       var value = /** @type {number} */ (reader.readInt32());
@@ -1303,8 +1290,7 @@ proto.battle.Battle.prototype.getRulesMap = function(opt_noLazyCreate) {
  */
 proto.battle.Battle.prototype.clearRulesMap = function() {
   this.getRulesMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
@@ -1763,10 +1749,8 @@ proto.battle.BattleAction.deserializeBinaryFromReader = function(msg, reader) {
       msg.setActionPosition(value);
       break;
     case 5:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedInt32() : [reader.readInt32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addEffectPositions(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedInt32());
+      msg.setEffectPositionsList(value);
       break;
     case 6:
       var value = /** @type {number} */ (reader.readInt32());
@@ -2573,10 +2557,8 @@ proto.battle.BaseUnit.deserializeBinaryFromReader = function(msg, reader) {
       msg.setAgi(value);
       break;
     case 7:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addActives(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setActivesList(value);
       break;
     case 8:
       var value = /** @type {number} */ (reader.readUint32());
@@ -2609,10 +2591,8 @@ proto.battle.BaseUnit.deserializeBinaryFromReader = function(msg, reader) {
          });
       break;
     case 15:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addAttributeTypes(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setAttributeTypesList(value);
       break;
     case 16:
       var value = /** @type {number} */ (reader.readUint32());
@@ -3308,8 +3288,7 @@ proto.battle.BaseUnit.prototype.getResultRate1000Map = function(opt_noLazyCreate
  */
 proto.battle.BaseUnit.prototype.clearResultRate1000Map = function() {
   this.getResultRate1000Map().clear();
-  return this;
-};
+  return this;};
 
 
 /**
@@ -3731,10 +3710,8 @@ proto.battle.CurrentUnit.deserializeBinaryFromReader = function(msg, reader) {
          });
       break;
     case 30:
-      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedUint32() : [reader.readUint32()]);
-      for (var i = 0; i < values.length; i++) {
-        msg.addActiveAuras(values[i]);
-      }
+      var value = /** @type {!Array<number>} */ (reader.readPackedUint32());
+      msg.setActiveAurasList(value);
       break;
     case 31:
       var value = /** @type {number} */ (reader.readInt32());
@@ -4545,8 +4522,7 @@ proto.battle.CurrentUnit.prototype.getAuraEnabledMap = function(opt_noLazyCreate
  */
 proto.battle.CurrentUnit.prototype.clearAuraEnabledMap = function() {
   this.getAuraEnabledMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
@@ -4586,8 +4562,7 @@ proto.battle.CurrentUnit.prototype.getStateEffectRateMap = function(opt_noLazyCr
  */
 proto.battle.CurrentUnit.prototype.clearStateEffectRateMap = function() {
   this.getStateEffectRateMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
@@ -4702,8 +4677,7 @@ proto.battle.CurrentUnit.prototype.getWithinActionValueMap = function(opt_noLazy
  */
 proto.battle.CurrentUnit.prototype.clearWithinActionValueMap = function() {
   this.getWithinActionValueMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
