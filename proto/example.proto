@@ -4,8 +4,15 @@ package example;
 
 option go_package = "github.com/hijjiri/core/example";
 
+import "google/api/annotations.proto";
+
 service ExampleService {
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+  rpc SayHello (HelloRequest) returns (HelloResponse) {
+    option (google.api.http) = {
+      post: "/v1/sayHello"
+      body: "*"
+    };
+  }
 }
 
 message HelloRequest {
