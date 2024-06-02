@@ -1,4 +1,4 @@
-module core
+module github.com/hijjiri/core
 
 go 1.21.0
 
