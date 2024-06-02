@@ -1,6 +1,7 @@
 PROTO_DIR=./proto
 OUTPUT_DIR=./go/grpc-server
 JS_DIR=./src/assets/_proto
+GOOGLEAPIS_DIR=/Users/saitoshosuke/go/src/github.com/googleapis
 
 .PHONY: proto
 
@@ -15,5 +16,6 @@ proto:
 		--go-grpc_out=M$(PROTO_DIR)/example.proto=$(OUTPUT_DIR)/example,paths=source_relative:$(OUTPUT_DIR)/$${dirname} \
 		--grpc-gateway_out=M$(PROTO_DIR)/example.proto=$(OUTPUT_DIR)/example,logtostderr=true,paths=source_relative:$(OUTPUT_DIR)/$${dirname} \
 		--proto_path=$(PROTO_DIR) \
+		--proto_path=$(GOOGLEAPIS_DIR) \
 		$$file; \
 	done
