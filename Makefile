@@ -11,9 +11,9 @@ proto:
 		mkdir -p "$(OUTPUT_DIR)/$${dirname}"; \
 		protoc --js_out=import_style=commonjs,binary:$(JS_DIR) \
 		--grpc-web_out=import_style=commonjs,mode=grpcwebtext:$(JS_DIR) \
-		--go_out=./go/grpc-server/$${dirname} \
-		--go-grpc_out=./go/grpc-server/$${dirname} \
-		--grpc-gateway_out=logtostderr=true:./go/grpc-server/$${dirname} \
+		--go_out=M$(PROTO_DIR)/example.proto=$(OUTPUT_DIR)/example,paths=source_relative:$(OUTPUT_DIR)/$${dirname} \
+		--go-grpc_out=M$(PROTO_DIR)/example.proto=$(OUTPUT_DIR)/example,paths=source_relative:$(OUTPUT_DIR)/$${dirname} \
+		--grpc-gateway_out=M$(PROTO_DIR)/example.proto=$(OUTPUT_DIR)/example,logtostderr=true,paths=source_relative:$(OUTPUT_DIR)/$${dirname} \
 		--proto_path=$(PROTO_DIR) \
 		$$file; \
 	done
