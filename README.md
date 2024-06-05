@@ -55,3 +55,18 @@ yarn global bin
 export PATH=$PATH:/Users/saitoshosuke/.yarn/bin
 source ~/.zshrc
 ```
+
+# 扱ったコマンド一覧
+docker build -t hijjiri-core:latest .
+docker stop hijjiri-core
+docker rm hijjiri-core
+docker run -d --name hijjiri-core -p 50051:50051 hijjiri-core:latest
+
+docker network create my_network
+docker network connect my_network hijjiri-core
+docker network connect my_network hijjiri-web
+docker network connect my_network envoy
+
+grpcurl -plaintext localhost:50051 list
+grpcurl -plaintext localhost:50051 describe example.ExampleService
+grpcurl -plaintext -import-path /Users/saitoshosuke/go/src/github.com/hijjiri/core/proto -proto example.proto -d '{"name": "world"}' localhost:8080 example.ExampleService/SayHello
