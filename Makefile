@@ -20,6 +20,7 @@ proto:
 		--proto_path=$(GOOGLEAPIS_DIR) \
 		$$file; \
 	done
+
 # Dockerイメージのビルド
 .PHONY: docker-build
 docker-build:
