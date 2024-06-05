@@ -1,20 +1,23 @@
-# ベースイメージとして公式のGoイメージを使用
-FROM golang:1.21 AS builder
+FROM golang:1.21-alpine as builder
 
-# 作業ディレクトリを設定
+RUN apk add --no-cache gcc libc-dev
+
 WORKDIR /app
 
-# モジュールファイルとプロジェクトファイルをコピー
 COPY go.mod go.sum ./
+
 RUN go mod download
 
-# ソースコードをコピー
 COPY . .
 
-# バイナリをビルド
-RUN go build -o grpc-server ./go/grpc-server/main.go
+RUN go build -o grpc-server ./go/grpc-server
 
-# 実行フェーズ
-FROM gcr.io/distroless/base
+FROM alpine:latest
+
+RUN apk add --no-cache libc6-compat
+
 COPY --from=builder /app/grpc-server /usr/local/bin/grpc-server
+
+EXPOSE 50051
+
 CMD ["grpc-server"]
