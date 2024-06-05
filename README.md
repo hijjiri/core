@@ -66,6 +66,7 @@ docker network create my_network
 docker network connect my_network hijjiri-core
 docker network connect my_network hijjiri-web
 docker network connect my_network envoy
+docker network inspect my_network
 
 grpcurl -plaintext localhost:50051 list
 grpcurl -plaintext localhost:50051 describe example.ExampleService
